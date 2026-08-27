@@ -117,6 +117,39 @@ hr {
   font-weight: 700;
 }
 
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-left: 18px;
+  border-left: 1px solid var(--rule);
+}
+
+.socials a {
+  display: inline-flex;
+  color: var(--text-muted);
+  line-height: 0;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.socials a:hover {
+  color: var(--accent);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.socials svg {
+  width: 17px;
+  height: 17px;
+}
+
 .site-nav {
   display: flex;
   align-items: center;
@@ -343,6 +376,19 @@ html:not([data-theme="dark"]) .theme-toggle .icon-moon {
   color: var(--text);
 }
 
+.repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+}
+
+.repo-link svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
 .post-body {
   max-width: var(--measure);
   margin: 0 auto;
@@ -514,6 +560,15 @@ html[data-theme="dark"] .search-overlay {
 
   .brand {
     font-size: 21px;
+  }
+
+  .brand-block {
+    gap: 12px;
+  }
+
+  .socials {
+    gap: 11px;
+    padding-left: 12px;
   }
 
   .page {
