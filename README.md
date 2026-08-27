@@ -34,5 +34,5 @@ site/
 - Light (white/violet) is the default theme; the header toggle switches to midnight
   violet and the choice is remembered in `localStorage`.
 - `ctrl k` / `cmd k` opens search; `↑` `↓` move, `enter` opens, `esc` closes.
-- The affiliation field on the thesis page is a `—` placeholder; edit it in the post's
+- The affiliation field on the thesis page lives in the post
   `.post-meta` block.

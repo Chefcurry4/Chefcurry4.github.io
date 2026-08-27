@@ -376,6 +376,10 @@ html:not([data-theme="dark"]) .theme-toggle .icon-moon {
   color: var(--text);
 }
 
+.post-meta__value--affil {
+  color: var(--accent);
+}
+
 .repo-link {
   display: inline-flex;
   align-items: center;
