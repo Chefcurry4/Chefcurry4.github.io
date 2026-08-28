@@ -597,43 +597,93 @@ html[data-theme="dark"] .search-overlay {
 }
 
 /* ===========================================================================
-   Thesis long-form. Deliberately plain: a contents list and section headings.
+   Thesis long-form: a sticky contents rail on the left, headings on the right.
    =========================================================================== */
 
-.contents {
-  margin: 34px 0 10px;
-  padding: 22px 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
+.post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, var(--measure));
+  justify-content: center;
 }
 
-.contents__label {
-  font-size: 15px;
+.post-toc__label {
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
   color: var(--text-faint);
   margin-bottom: 12px;
 }
 
-.contents__list {
+.post-toc__list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.contents__list li {
-  margin: 0 0 7px;
+.post-toc__list a {
+  display: block;
+  padding: 7px 0 7px 15px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 14.5px;
+  line-height: 1.45;
+  transition: color 130ms ease, border-color 130ms ease;
 }
 
-.contents__list a {
+.post-toc__list a:hover {
   color: var(--text);
-}
-
-.contents__list a:hover {
-  color: var(--accent);
   text-decoration: none;
 }
 
+.post-toc__list a.is-current {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+/* narrow: the rail sits above the text as a plain list */
+@media (max-width: 1099px) {
+  .post-toc {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 22px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .post-toc__list a {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .post-toc__list a.is-current {
+    border-left: 0;
+  }
+}
+
+/* wide: two columns, the rail sticks under the header */
+@media (min-width: 1100px) {
+  .post-layout {
+    grid-template-columns: 224px minmax(0, var(--measure));
+    gap: 60px;
+  }
+
+  .post-toc {
+    position: sticky;
+    top: calc(var(--header-h) + 26px);
+    align-self: start;
+    padding-top: 56px;
+    max-height: calc(100vh - var(--header-h) - 60px);
+    overflow-y: auto;
+  }
+
+  .post-toc__list {
+    border-left: 1px solid var(--rule);
+  }
+}
+
 .section {
-  scroll-margin-top: calc(var(--header-h) + 16px);
+  scroll-margin-top: calc(var(--header-h) + 20px);
 }
 
 .post-body .section__title {
@@ -646,8 +696,18 @@ html[data-theme="dark"] .search-overlay {
   color: var(--text);
 }
 
+.post-body .section:first-child .section__title {
+  margin-top: 0;
+}
+
 /* a quiet note where the prose will go */
 .soon {
   color: var(--text-faint);
   margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-toc__list a {
+    transition: none;
+  }
 }

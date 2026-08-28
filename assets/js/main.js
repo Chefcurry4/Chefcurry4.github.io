@@ -242,11 +242,65 @@
       .join("");
   }
 
+
+  /* ----------------------------------------------------- contents rail ---
+     Highlights the section you are currently reading, Overleaf-style.
+     Falls back silently on pages with no rail.
+     --------------------------------------------------------------------- */
+  function setupContentsRail() {
+    var links = [].slice.call(document.querySelectorAll(".post-toc__list a"));
+    if (!links.length) return;
+
+    var sections = links
+      .map(function (a) {
+        var el = document.getElementById(a.getAttribute("href").slice(1));
+        return el ? { el: el, link: a } : null;
+      })
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    var current = null;
+    function mark(entry) {
+      if (entry === current) return;
+      if (current) current.link.classList.remove("is-current");
+      entry.link.classList.add("is-current");
+      current = entry;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      mark(sections[0]);
+      return;
+    }
+
+    var seen = {};
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          seen[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0;
+        });
+        // the topmost section still on screen wins
+        for (var i = 0; i < sections.length; i++) {
+          if (seen[sections[i].el.id] > 0) {
+            mark(sections[i]);
+            return;
+          }
+        }
+      },
+      { rootMargin: "-25% 0px -60% 0px", threshold: [0, 1] }
+    );
+
+    sections.forEach(function (s) {
+      observer.observe(s.el);
+    });
+    mark(sections[0]);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     var root = document.body.getAttribute("data-root") || "./";
     var toggle = document.querySelector("[data-theme-toggle]");
     if (toggle) toggle.addEventListener("click", toggleTheme);
     renderPostList(root);
     setupSearch(root);
+    setupContentsRail();
   });
 })();
