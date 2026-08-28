@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Roboto:wght@300;400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml" />
@@ -106,644 +106,64 @@
         <hr />
 
         <div class="post-body">
-          <!-- ================================================== abstract -->
-          <section class="section" id="abstract">
-            <div class="abstract">
-              <div class="abstract__label">Abstract</div>
-              <p>
-                One paragraph on the problem, the model, the result, and the honest ceiling. Written
-                last.
-              </p>
-            </div>
-          </section>
-
-          <!-- ================================================== contents -->
           <nav class="contents" aria-label="Contents">
             <div class="contents__label">Contents</div>
             <ul class="contents__list">
-              <li>
-                <a href="#part-0"><span class="contents__num">Part 0</span
-                  ><span>What the model actually is</span></a>
-              </li>
-              <li>
-                <a href="#part-1"><span class="contents__num">Part I</span
-                  ><span>Novelty of the formalism</span></a>
-              </li>
-              <li>
-                <a href="#part-2"><span class="contents__num">Part II</span
-                  ><span>Novelty of the application</span></a>
-              </li>
-              <li>
-                <a href="#literature"><span class="contents__num">Review</span
-                  ><span>Extended literature review</span></a>
-              </li>
-              <li>
-                <a href="#part-3"><span class="contents__num">Part III</span
-                  ><span>Why each design choice</span></a>
-              </li>
-              <li>
-                <a href="#part-4"><span class="contents__num">Part IV</span
-                  ><span>Model architecture</span></a>
-              </li>
-              <li>
-                <a href="#part-5"><span class="contents__num">Part V</span
-                  ><span>Limits and future work</span></a>
-              </li>
-              <li>
-                <a href="#timeline"><span class="contents__num">Timeline</span
-                  ><span>Project timeline</span></a>
-              </li>
+              <li><a href="#abstract">Abstract</a></li>
+              <li><a href="#part-0">Part 0 — What the model actually is</a></li>
+              <li><a href="#part-1">Part I — Novelty of the formalism</a></li>
+              <li><a href="#part-2">Part II — Novelty of the application</a></li>
+              <li><a href="#literature">Extended literature review</a></li>
+              <li><a href="#part-3">Part III — Why each design choice</a></li>
+              <li><a href="#part-4">Part IV — Model architecture</a></li>
+              <li><a href="#part-5">Part V — Limits and future work</a></li>
+              <li><a href="#timeline">Project timeline</a></li>
             </ul>
           </nav>
 
-          <!-- ==================================================== part 0 -->
+          <section class="section" id="abstract">
+            <h2 class="section__title">Abstract</h2>
+            <p class="soon">Coming soon.</p>
+          </section>
+
           <section class="section" id="part-0">
-            <div class="section__head">
-              <div class="section__eyebrow">Part 0</div>
-              <h2 class="section__title">What the model actually is</h2>
-              <div class="section__standfirst">
-                The object under discussion, defined before it is judged — and the things I believed
-                about it that turned out to be false.
-              </div>
-            </div>
-
-            <ul class="questions">
-              <li>
-                <div class="questions__id">Q1</div>
-                <div>
-                  <h3 class="questions__q">What is the model, in one page?</h3>
-                  <div class="questions__scope">
-                    The forward path, the parameter budget, and the list of things it never sees:
-                    gust parameters, force feedback, flow field, future, off-body probes.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q2</div>
-                <div>
-                  <h3 class="questions__q">
-                    What is the training objective, written as one equation — and is that equation
-                    what the code runs?
-                  </h3>
-                  <div class="questions__scope">
-                    Equation (8), and the honest note that the trainer runs a two-term sum.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q3</div>
-                <div>
-                  <h3 class="questions__q">
-                    What are the headline numbers, in convective times rather than timesteps?
-                  </h3>
-                  <div class="questions__scope">
-                    Error against lead, the three-seed picture, the non-neural floor, and why the
-                    horizon must be quoted in chords.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q4</div>
-                <div>
-                  <h3 class="questions__q">
-                    What did I believe about my own model that turned out to be false?
-                  </h3>
-                  <div class="questions__scope">
-                    Four premises contradicted by the code, each a one-question kill in a viva.
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="todo">section not yet written</div>
+            <h2 class="section__title">Part 0 — What the model actually is</h2>
+            <p class="soon">Coming soon.</p>
           </section>
 
-          <!-- ==================================================== part I -->
           <section class="section" id="part-1">
-            <div class="section__head">
-              <div class="section__eyebrow">Part I</div>
-              <h2 class="section__title">Novelty of the formalism</h2>
-              <div class="section__standfirst">
-                Whether the problem statement, the objective, or the architecture is new — judged
-                against machine learning at large, not only against aerodynamics.
-              </div>
-            </div>
-
-            <ul class="questions">
-              <li>
-                <div class="questions__id">Q5</div>
-                <div>
-                  <h3 class="questions__q">
-                    Is the problem formulation new — observing one quantity and predicting a
-                    different one through a latent state?
-                  </h3>
-                  <div class="questions__scope">
-                    Observer theory, soft sensing, virtual sensing, and the closest instances outside
-                    fluids.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q6</div>
-                <div>
-                  <h3 class="questions__q">
-                    Is the training objective new — forking a blind rollout from every filter state
-                    and scoring every lead?
-                  </h3>
-                  <div class="questions__scope">
-                    Overshooting, latent overshooting, forking sequences, value-equivalent models,
-                    and goal-oriented model reduction.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q7</div>
-                <div>
-                  <h3 class="questions__q">Is the architecture new?</h3>
-                  <div class="questions__scope">
-                    Component by component. The answer is no, and the thesis is stronger for saying
-                    so first.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q8</div>
-                <div>
-                  <h3 class="questions__q">
-                    Which papers are closest on formalism, and what exactly separates this model from
-                    each?
-                  </h3>
-                  <div class="questions__scope">With citations, links, and surviving differentiators.</div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q9</div>
-                <div>
-                  <h3 class="questions__q">
-                    Composing one operator forty times, or training forty predictors — which is
-                    right?
-                  </h3>
-                  <div class="questions__scope">
-                    Direct versus recursive, and why the forecasting literature leans the other way.
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="todo">section not yet written</div>
+            <h2 class="section__title">Part I — Novelty of the formalism</h2>
+            <p class="soon">Coming soon.</p>
           </section>
 
-          <!-- =================================================== part II -->
           <section class="section" id="part-2">
-            <div class="section__head">
-              <div class="section__eyebrow">Part II</div>
-              <h2 class="section__title">Novelty of the application</h2>
-              <div class="section__standfirst">
-                The same interrogation, run against unsteady aerodynamics — where the competitors are
-                closer and the discriminators are sharper.
-              </div>
-            </div>
-
-            <ul class="questions">
-              <li>
-                <div class="questions__id">Q10</div>
-                <div>
-                  <h3 class="questions__q">Is this application new in unsteady aerodynamics?</h3>
-                  <div class="questions__scope">What is scooped, by whom, and what is left.</div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q11</div>
-                <div>
-                  <h3 class="questions__q">
-                    What are the closest papers in my own domain, and how does this differ from each?
-                  </h3>
-                  <div class="questions__scope">
-                    Six discriminators: forecast or estimate; direct or iterated; sensor on or blind;
-                    uncertainty or not; which components; external gust or self-motion.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q12</div>
-                <div>
-                  <h3 class="questions__q">
-                    What is the single sentence that survives — and how many qualifiers does it need
-                    to stay true?
-                  </h3>
-                  <div class="questions__scope">
-                    Each clause, and the paper that defeats it alone.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q13</div>
-                <div>
-                  <h3 class="questions__q">
-                    What changes when the model must handle many gusts in one sequence rather than
-                    one?
-                  </h3>
-                  <div class="questions__scope">
-                    Multi-gust training, reacquisition after a blind interval, and what is claimable
-                    there.
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="todo">section not yet written</div>
+            <h2 class="section__title">Part II — Novelty of the application</h2>
+            <p class="soon">Coming soon.</p>
           </section>
 
-          <!-- ======================================== literature review -->
           <section class="section" id="literature">
-            <div class="section__head">
-              <div class="section__eyebrow">Review</div>
-              <h2 class="section__title">Extended literature review</h2>
-              <div class="section__standfirst">
-                A ten-lane adversarial sweep, every citation opened and quoted rather than
-                remembered. The instruction to each lane was to find the paper that scoops this
-                thesis.
-              </div>
-            </div>
-
-            <ul class="questions">
-              <li>
-                <div class="questions__id">L1</div>
-                <div>
-                  <h3 class="questions__q">
-                    How do you review a literature you are motivated to under-read?
-                  </h3>
-                  <div class="questions__scope">
-                    The method: parallel lanes, adversarial prompting, verbatim quotation, and a
-                    quarantine for anything that could not be opened.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">L2</div>
-                <div>
-                  <h3 class="questions__q">Which claims died, and to which paper?</h3>
-                  <div class="questions__scope">
-                    The kill list, published openly, including the ones that were previously
-                    advertised as the contribution.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">L3</div>
-                <div>
-                  <h3 class="questions__q">
-                    Which papers turned out to be gifts rather than threats?
-                  </h3>
-                  <div class="questions__scope">
-                    Prior work that names the objective and declines it, supplies a theorem, or
-                    publishes the negative result this thesis answers.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">L4</div>
-                <div>
-                  <h3 class="questions__q">
-                    How many citations survive a check, and what does that say about citing from
-                    memory?
-                  </h3>
-                  <div class="questions__scope">
-                    Roughly forty-five live bibliographic traps: changed titles, one-digit DOIs,
-                    sentences deleted between preprint and journal, and one paper that does not
-                    exist.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">L5</div>
-                <div>
-                  <h3 class="questions__q">
-                    Where is the real contribution, once the obvious candidates are gone?
-                  </h3>
-                  <div class="questions__scope">
-                    Forecasting, autoregressivity, and pressure-to-loads all need re-examining.
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="todo">section not yet written</div>
+            <h2 class="section__title">Extended literature review</h2>
+            <p class="soon">Coming soon.</p>
           </section>
 
-          <!-- ================================================== part III -->
           <section class="section" id="part-3">
-            <div class="section__head">
-              <div class="section__eyebrow">Part III</div>
-              <h2 class="section__title">Why each design choice</h2>
-              <div class="section__standfirst">
-                Every component, interrogated for whether it earns its place — and what the evidence
-                for it actually is.
-              </div>
-            </div>
-
-            <ul class="questions">
-              <li>
-                <div class="questions__id">Q14</div>
-                <div>
-                  <h3 class="questions__q">
-                    Why a recurrent gated cell, and not an LSTM, a state-space model, or a neural
-                    ODE?
-                  </h3>
-                  <div class="questions__scope">
-                    Including the uncomfortable answer about how many alternatives were actually
-                    trained.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q15</div>
-                <div>
-                  <h3 class="questions__q">
-                    Why an encoder, a latent, and a decoder at all — could raw pressure be fed
-                    straight in?
-                  </h3>
-                  <div class="questions__scope">The measured collapse when the encoder is removed.</div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q16</div>
-                <div>
-                  <h3 class="questions__q">
-                    Why is the encoder built from several parts, and is each one earning its place?
-                  </h3>
-                  <div class="questions__scope">
-                    Positional encoding, attention block, pooling — and which of them this recipe
-                    never exercises.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q17</div>
-                <div>
-                  <h3 class="questions__q">
-                    Why a probabilistic decoder — what does uncertainty buy, and what does it not?
-                  </h3>
-                  <div class="questions__scope">
-                    What the band supports, and what it structurally cannot support.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q18</div>
-                <div>
-                  <h3 class="questions__q">Why train on short bursts rather than whole trajectories?</h3>
-                  <div class="questions__scope">
-                    Coverage at equal compute, gust sampling bias, and which arguments are real
-                    versus reconstructed after the fact.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q19</div>
-                <div>
-                  <h3 class="questions__q">
-                    Why is the latent state not initialised — and what does the burn-in cost at
-                    deployment?
-                  </h3>
-                  <div class="questions__scope">Washout, cold start, and an untested deployment mode.</div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q20</div>
-                <div>
-                  <h3 class="questions__q">
-                    Why keep history in the state instead of feeding a window of past inputs?
-                  </h3>
-                  <div class="questions__scope">
-                    Delay embedding, and why the literature does not settle this in my favour.
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="todo">section not yet written</div>
+            <h2 class="section__title">Part III — Why each design choice</h2>
+            <p class="soon">Coming soon.</p>
           </section>
 
-          <!-- =================================================== part IV -->
           <section class="section" id="part-4">
-            <div class="section__head">
-              <div class="section__eyebrow">Part IV</div>
-              <h2 class="section__title">Model architecture</h2>
-              <div class="section__standfirst">
-                The full technical walkthrough: tensor path, objective, parameter budget, and the
-                mechanics of the blind branch.
-              </div>
-            </div>
-
-            <ul class="questions">
-              <li>
-                <div class="questions__id">A1</div>
-                <div>
-                  <h3 class="questions__q">
-                    What happens to a single pressure reading on its way to a force?
-                  </h3>
-                  <div class="questions__scope">
-                    Tokenisation, set attention, pooling, recurrence, decoding — with shapes.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">A2</div>
-                <div>
-                  <h3 class="questions__q">
-                    What exactly does the blind branch do, step by step?
-                  </h3>
-                  <div class="questions__scope">
-                    Deleting the input term, forking from every anchor, discarding the branch,
-                    keeping the gradient.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">A3</div>
-                <div>
-                  <h3 class="questions__q">
-                    Where do the parameters actually live, and which of them do the forecasting?
-                  </h3>
-                  <div class="questions__scope">
-                    The share of the network that survives when the input pathway is switched off.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">A4</div>
-                <div>
-                  <h3 class="questions__q">
-                    Which parts of the codebase are built, and which are dead in this configuration?
-                  </h3>
-                  <div class="questions__scope">
-                    An honest inventory, because several documented components are never constructed.
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="todo">section not yet written</div>
+            <h2 class="section__title">Part IV — Model architecture</h2>
+            <p class="soon">Coming soon.</p>
           </section>
 
-          <!-- ==================================================== part V -->
           <section class="section" id="part-5">
-            <div class="section__head">
-              <div class="section__eyebrow">Part V</div>
-              <h2 class="section__title">Limits and future work</h2>
-              <div class="section__standfirst">
-                Assumptions, measured failure modes, and the experiments that would settle what is
-                still open.
-              </div>
-            </div>
-
-            <ul class="questions">
-              <li>
-                <div class="questions__id">Q21</div>
-                <div>
-                  <h3 class="questions__q">What does the application assume?</h3>
-                  <div class="questions__scope">
-                    Reynolds number, angle of attack, two dimensions, rigid and stationary body, one
-                    gust family, noise-free taps, fixed timestep.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q22</div>
-                <div>
-                  <h3 class="questions__q">
-                    What does the architecture assume, and where do those assumptions bind?
-                  </h3>
-                  <div class="questions__scope">
-                    Markov latent, diagonal Gaussian, marginals rather than a joint, timestep baked
-                    in, exactly two components.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q23</div>
-                <div>
-                  <h3 class="questions__q">
-                    How far does this generalise — other quantities, other observables, other
-                    systems?
-                  </h3>
-                  <div class="questions__scope">
-                    What transfers by construction, and the hard limits on extension.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q24</div>
-                <div>
-                  <h3 class="questions__q">Does more data help? Does a bigger network?</h3>
-                  <div class="questions__scope">
-                    A measured scaling null, and where the capacity bottleneck actually sits.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q25</div>
-                <div>
-                  <h3 class="questions__q">Where does the model fail, measured rather than assumed?</h3>
-                  <div class="questions__scope">
-                    Sensor brittleness, the reacquisition transient, phase-conditional calibration,
-                    and why drag is harder than lift.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q26</div>
-                <div>
-                  <h3 class="questions__q">
-                    What does a sub-chord forecast actually buy, physically?
-                  </h3>
-                  <div class="questions__scope">
-                    Compared against real preview horizons from gust-load alleviation and wind
-                    energy.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q27</div>
-                <div>
-                  <h3 class="questions__q">What happens with real, noisy, experimental pressure?</h3>
-                  <div class="questions__scope">The largest untested gap.</div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q28</div>
-                <div>
-                  <h3 class="questions__q">
-                    What is the latent, physically — is it tracking the gust or the wake?
-                  </h3>
-                  <div class="questions__scope">
-                    Probes that are written but not yet run, and the drag paradox.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q29</div>
-                <div>
-                  <h3 class="questions__q">
-                    Compared to what? What is the baseline, and has it been beaten fairly?
-                  </h3>
-                  <div class="questions__scope">
-                    Why the memoryless floor is a lead-zero baseline only.
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="questions__id">Q30</div>
-                <div>
-                  <h3 class="questions__q">
-                    What would falsify this thesis, and which falsifiers are one run away?
-                  </h3>
-                  <div class="questions__scope">
-                    A pre-registered list, published before the runs that could settle it.
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="todo">section not yet written</div>
+            <h2 class="section__title">Part V — Limits and future work</h2>
+            <p class="soon">Coming soon.</p>
           </section>
 
-          <!-- ================================================== timeline -->
           <section class="section" id="timeline">
-            <div class="section__head">
-              <div class="section__eyebrow">Timeline</div>
-              <h2 class="section__title">Project timeline</h2>
-              <div class="section__standfirst">
-                What was built when, what it cost, and what it changed.
-              </div>
-            </div>
-
-            <ul class="timeline">
-              <li data-state="done">
-                <div class="timeline__when">Phase 0</div>
-                <h3 class="timeline__what">Dataset and preprocessing</h3>
-                <div class="timeline__note">Placeholder — simulations, invariants, splits.</div>
-              </li>
-              <li data-state="done">
-                <div class="timeline__when">Phase 1</div>
-                <h3 class="timeline__what">Observer: pressure to loads at the current time</h3>
-                <div class="timeline__note">Placeholder.</div>
-              </li>
-              <li data-state="done">
-                <div class="timeline__when">Phase 2</div>
-                <h3 class="timeline__what">Forecast: the blind branch</h3>
-                <div class="timeline__note">Placeholder.</div>
-              </li>
-              <li data-state="done">
-                <div class="timeline__when">Phase 3</div>
-                <h3 class="timeline__what">Adversarial literature review</h3>
-                <div class="timeline__note">Placeholder.</div>
-              </li>
-              <li data-state="now">
-                <div class="timeline__when">Now</div>
-                <h3 class="timeline__what">Multi-gust sequences</h3>
-                <div class="timeline__note">Placeholder.</div>
-              </li>
-              <li>
-                <div class="timeline__when">Next</div>
-                <h3 class="timeline__what">Open falsifiers</h3>
-                <div class="timeline__note">Placeholder.</div>
-              </li>
-            </ul>
+            <h2 class="section__title">Project timeline</h2>
+            <p class="soon">Coming soon.</p>
           </section>
         </div>
       </article>

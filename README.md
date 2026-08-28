@@ -35,32 +35,29 @@ python -m http.server 8000
    both the landing-page list and the ctrl-k search index. `tags` show under the entry and
    rank first in search.
 
-## Thesis page building blocks
+## Thesis page
 
-The thesis entry is scaffolded with section titles only — the prose is still to be written.
-Classes available inside `.post-body`:
+`blog/2026/observer-forecaster/index.html` currently holds the nine section headings and a
+contents list — the prose is still to be written. Each section is:
 
-| Class | What it is |
-|---|---|
-| `.abstract` | violet-to-blue washed block with an `.abstract__label` |
-| `.contents` + `.contents__list` | the contents rail; `.contents__num` is the blue part label |
-| `.section` + `.section__head` | one part; `__eyebrow` (blue, mono), `__title`, `__standfirst` |
-| `.questions` | the bordered question table; each `li` holds `.questions__id`, `.questions__q`, `.questions__scope` |
-| `.todo` | dashed "not yet written" pill — delete as each section is filled in |
-| `.timeline` | vertical rail; `data-state="done"` or `data-state="now"` on an `li` fills/haloes its dot |
+```html
+<section class="section" id="part-0">
+  <h2 class="section__title">Part 0 — What the model actually is</h2>
+  <p class="soon">Coming soon.</p>
+</section>
+```
 
-Write prose as plain `<p>` inside a `.section`. Labels and scope notes use `<div>`, not `<p>`,
-so `.post-body p` margins don't fight them.
+Replace the `.soon` line with ordinary `<p>` paragraphs as each section gets written.
 
 ## Design
 
-- **Type** — Geist (Vercel) for titles, brand, section heads and question text via
-  `--font-display`; Geist Mono for eyebrows and labels; Roboto stays the body face.
-- **Palette** — violet-black ink (`--text`) cooling to blue-grey for secondary text,
-  violet `--accent` carrying structure and blue `--accent-2` carrying the annotative layer
-  (eyebrows, part labels, timeline dots).
+- **Type** — Geist (Vercel) for titles, the brand and section headings, via `--font-display`.
+  Reading text uses the native system stack, so it renders as Segoe UI on Windows and SF on
+  macOS. Geist is the only webfont loaded.
+- **Palette** — violet-black ink cooling to blue-grey for secondary text, with violet
+  `--accent` for links and accents and blue `--accent-2` held in reserve.
 - **Themes** — light is the default; the header toggle switches to midnight violet and the
-  choice is remembered in `localStorage`. Both themes are defined explicitly.
+  choice is remembered in `localStorage`.
 
 ## Keyboard
 
