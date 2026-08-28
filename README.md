@@ -37,7 +37,7 @@ python -m http.server 8000
 
 ## Thesis page
 
-`blog/2026/observer-forecaster/index.html` currently holds the nine section headings and a
+`blog/2026/observer-forecaster/index.html` currently holds the eight section headings and a
 contents list — the prose is still to be written. Each section is:
 
 ```html
