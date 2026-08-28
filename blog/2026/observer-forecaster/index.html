@@ -17,12 +17,12 @@
     <link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="../../../assets/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="../../../assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="../../../assets/css/main.css?v=9f37c019" />
+    <link rel="stylesheet" href="../../../assets/css/main.css?v=6bc844d3" />
     <script src="../../../assets/js/posts.js"></script>
     <script src="../../../assets/js/main.js?v=5c58da40"></script>
   </head>
 
-  <body data-root="../../../">
+  <body class="doc" data-root="../../../">
     <header class="site-header">
       <div class="site-header__inner">
         <div class="brand-block">
@@ -66,6 +66,23 @@
 
     <main class="page">
       <article>
+        <div class="post-layout">
+          <aside class="post-toc" aria-label="Contents">
+            <div class="post-toc__label">Contents</div>
+            <ul class="post-toc__list">
+              <li><a href="#abstract">Abstract</a></li>
+              <li><a href="#part-0">Part 0 — What the model actually is</a></li>
+              <li><a href="#part-1">Part I — Novelty of the formalism</a></li>
+              <li><a href="#part-2">Part II — Novelty of the application</a></li>
+              <li><a href="#literature">Extended literature review</a></li>
+              <li><a href="#part-3">Part III — Why each design choice</a></li>
+              <li><a href="#part-4">Part IV — Model architecture</a></li>
+              <li><a href="#part-5">Part V — Limits and future work</a></li>
+              <li><a href="#timeline">Project timeline</a></li>
+            </ul>
+          </aside>
+
+          <div class="post-main">
         <div class="post-header">
           <h1 class="post-header__title">
             A learned observer–forecaster for partially observed dynamics: airfoil loads under
@@ -104,22 +121,6 @@
         </div>
 
         <hr />
-
-        <div class="post-layout">
-          <aside class="post-toc" aria-label="Contents">
-            <div class="post-toc__label">Contents</div>
-            <ul class="post-toc__list">
-              <li><a href="#abstract">Abstract</a></li>
-              <li><a href="#part-0">Part 0 — What the model actually is</a></li>
-              <li><a href="#part-1">Part I — Novelty of the formalism</a></li>
-              <li><a href="#part-2">Part II — Novelty of the application</a></li>
-              <li><a href="#literature">Extended literature review</a></li>
-              <li><a href="#part-3">Part III — Why each design choice</a></li>
-              <li><a href="#part-4">Part IV — Model architecture</a></li>
-              <li><a href="#part-5">Part V — Limits and future work</a></li>
-              <li><a href="#timeline">Project timeline</a></li>
-            </ul>
-          </aside>
 
         <div class="post-body">
           <section class="section" id="abstract">
@@ -167,10 +168,12 @@
             <p class="soon">Coming soon.</p>
           </section>
         </div>
+
+            <nav class="post-nav"><a href="../../../index.html">← all projects</a></nav>
+          </div>
         </div>
       </article>
 
-      <nav class="post-nav"><a href="../../../index.html">← all projects</a></nav>
     </main>
 
     <footer class="site-footer">© 2026 Massimo Perfetti</footer>
