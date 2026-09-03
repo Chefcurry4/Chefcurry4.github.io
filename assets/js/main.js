@@ -208,7 +208,13 @@
       .map(function (post) {
         var tags = (post.tags || [])
           .map(function (tag) {
-            return '<span class="tag">#&hairsp;' + escapeHtml(tag) + "</span>";
+            return (
+              '<button type="button" class="tag tag--link" data-tag="' +
+              escapeHtml(tag) +
+              '">#&hairsp;' +
+              escapeHtml(tag) +
+              "</button>"
+            );
           })
           .join("");
         var yearChip =
@@ -260,6 +266,8 @@
     if (!sections.length) return;
 
     var current = null;
+    var holdUntil = 0; /* scroll-driven updates stay quiet while a clicked jump settles */
+
     function mark(entry) {
       if (entry === current) return;
       if (current) current.link.classList.remove("is-current");
@@ -267,32 +275,339 @@
       current = entry;
     }
 
-    if (!("IntersectionObserver" in window)) {
-      mark(sections[0]);
-      return;
+    /* Clicking an entry selects it outright; sections near the page bottom can
+       never scroll up into the reading band, so the observer alone would skip
+       them. */
+    sections.forEach(function (entry) {
+      entry.link.addEventListener("click", function () {
+        mark(entry);
+        holdUntil = Date.now() + 1000;
+      });
+    });
+
+    function atPageBottom() {
+      var doc = document.documentElement;
+      return window.innerHeight + window.pageYOffset >= doc.scrollHeight - 2;
     }
 
-    var seen = {};
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (e) {
-          seen[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0;
+    function markFromViewport() {
+      if (Date.now() < holdUntil) return;
+      if (atPageBottom()) {
+        mark(sections[sections.length - 1]);
+        return;
+      }
+      /* the last chapter whose heading has crossed the trigger line wins;
+         the line sits low enough that a section jumped to via the rail
+         (which lands just under the header) still counts as its own */
+      var line = window.innerHeight * 0.3;
+      var pick = sections[0];
+      for (var i = 0; i < sections.length; i++) {
+        if (sections[i].el.getBoundingClientRect().top <= line) pick = sections[i];
+      }
+      mark(pick);
+    }
+
+    var ticking = false;
+    function onViewportChange() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        markFromViewport();
+      });
+    }
+
+    window.addEventListener("scroll", onViewportChange, { passive: true });
+    window.addEventListener("resize", onViewportChange);
+    markFromViewport();
+  }
+
+  /* ------------------------------------------------------------ tag graph --
+     Obsidian-style force graph of posts and their tags. Opened by clicking
+     any #tag chip; built lazily so pages without tags pay nothing.
+     ----------------------------------------------------------------------- */
+  function setupTagGraph(root) {
+    var overlay = null;
+    var canvas = null;
+    var ctx = null;
+    var focusEl = null;
+    var nodes = [];
+    var edges = [];
+    var neighbors = [];
+    var focusTag = null;
+    var hovered = -1;
+    var dragged = -1;
+    var moved = false;
+    var raf = 0;
+
+    var FONT = '12px Geist, "Segoe UI", system-ui, sans-serif';
+
+    function shorten(text) {
+      return text.length > 36 ? text.slice(0, 35).replace(/\s+\S*$/, "") + "…" : text;
+    }
+
+    function palette() {
+      var cs = getComputedStyle(document.documentElement);
+      function v(name) {
+        return cs.getPropertyValue(name).trim();
+      }
+      return {
+        accent: v("--accent"),
+        text: v("--text-muted"),
+        faint: v("--text-faint"),
+        rule: v("--rule"),
+      };
+    }
+
+    function size() {
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function buildGraph() {
+      var posts = window.SITE_POSTS || [];
+      var w = canvas.clientWidth;
+      var h = canvas.clientHeight;
+      var tagIndex = {};
+      nodes = [];
+      edges = [];
+      posts.forEach(function (post, i) {
+        var a = (i / Math.max(posts.length, 1)) * Math.PI * 2;
+        nodes.push({
+          kind: "post",
+          label: shorten(post.title),
+          url: root + post.url,
+          x: w / 2 + Math.cos(a) * 30,
+          y: h / 2 + Math.sin(a) * 30,
+          vx: 0,
+          vy: 0,
+          r: 11,
         });
-        // the topmost section still on screen wins
-        for (var i = 0; i < sections.length; i++) {
-          if (seen[sections[i].el.id] > 0) {
-            mark(sections[i]);
-            return;
+      });
+      posts.forEach(function (post, i) {
+        (post.tags || []).forEach(function (tag) {
+          if (!(tag in tagIndex)) {
+            var a = (nodes.length * 2.4) % (Math.PI * 2); /* golden-angle spread */
+            tagIndex[tag] = nodes.length;
+            nodes.push({
+              kind: "tag",
+              tag: tag,
+              label: "#" + tag,
+              x: w / 2 + Math.cos(a) * 120,
+              y: h / 2 + Math.sin(a) * 120,
+              vx: 0,
+              vy: 0,
+              r: 6.5,
+            });
+          }
+          edges.push([i, tagIndex[tag]]);
+        });
+      });
+      neighbors = nodes.map(function () {
+        return {};
+      });
+      edges.forEach(function (e) {
+        neighbors[e[0]][e[1]] = true;
+        neighbors[e[1]][e[0]] = true;
+      });
+    }
+
+    function step() {
+      var w = canvas.clientWidth;
+      var h = canvas.clientHeight;
+      var i;
+      var j;
+      for (i = 0; i < nodes.length; i++) {
+        for (j = i + 1; j < nodes.length; j++) {
+          var a = nodes[i];
+          var b = nodes[j];
+          var dx = b.x - a.x;
+          var dy = b.y - a.y;
+          var d2 = dx * dx + dy * dy + 60;
+          var f = 2600 / (d2 * Math.sqrt(d2));
+          a.vx -= f * dx;
+          a.vy -= f * dy;
+          b.vx += f * dx;
+          b.vy += f * dy;
+        }
+      }
+      edges.forEach(function (e) {
+        var a = nodes[e[0]];
+        var b = nodes[e[1]];
+        var dx = b.x - a.x;
+        var dy = b.y - a.y;
+        var d = Math.sqrt(dx * dx + dy * dy) || 1;
+        var f = ((d - 105) * 0.015) / d;
+        a.vx += f * dx;
+        a.vy += f * dy;
+        b.vx -= f * dx;
+        b.vy -= f * dy;
+      });
+      nodes.forEach(function (n, k) {
+        if (k === dragged) {
+          n.vx = 0;
+          n.vy = 0;
+          return;
+        }
+        n.vx = (n.vx + (w / 2 - n.x) * 0.004) * 0.85;
+        n.vy = (n.vy + (h / 2 - n.y) * 0.004) * 0.85;
+        n.x += n.vx;
+        n.y += n.vy;
+      });
+    }
+
+    function draw() {
+      var pal = palette();
+      var w = canvas.clientWidth;
+      var h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      var dimming = hovered >= 0;
+      edges.forEach(function (e) {
+        var on = !dimming || e[0] === hovered || e[1] === hovered;
+        ctx.globalAlpha = on ? 0.9 : 0.15;
+        ctx.strokeStyle = pal.rule;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(nodes[e[0]].x, nodes[e[0]].y);
+        ctx.lineTo(nodes[e[1]].x, nodes[e[1]].y);
+        ctx.stroke();
+      });
+      ctx.font = FONT;
+      ctx.textAlign = "center";
+      nodes.forEach(function (n, k) {
+        var on = !dimming || k === hovered || neighbors[hovered][k];
+        var alpha = on ? 1 : 0.15;
+        var isFocus = n.kind === "tag" && n.tag === focusTag;
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = n.kind === "post" || isFocus ? pal.accent : pal.faint;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+        if (isFocus) {
+          ctx.globalAlpha = alpha * 0.35;
+          ctx.strokeStyle = pal.accent;
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r + 4.5, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.globalAlpha = alpha;
+        }
+        ctx.fillStyle = isFocus ? pal.accent : n.kind === "post" ? pal.text : pal.faint;
+        ctx.fillText(n.label, n.x, n.y + n.r + 16);
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    function loop() {
+      step();
+      draw();
+      raf = window.requestAnimationFrame(loop);
+    }
+
+    function localXY(event) {
+      var rect = canvas.getBoundingClientRect();
+      return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    }
+
+    function nodeAt(x, y) {
+      for (var i = nodes.length - 1; i >= 0; i--) {
+        var dx = x - nodes[i].x;
+        var dy = y - nodes[i].y;
+        var reach = nodes[i].r + 7;
+        if (dx * dx + dy * dy <= reach * reach) return i;
+      }
+      return -1;
+    }
+
+    function close() {
+      window.cancelAnimationFrame(raf);
+      overlay.classList.remove("is-open");
+    }
+
+    function ensureOverlay() {
+      if (overlay) return;
+      overlay = document.createElement("div");
+      overlay.className = "graph-overlay";
+      overlay.innerHTML =
+        '<div class="graph-panel">' +
+        '<div class="graph-panel__bar"><span class="graph-panel__focus"></span>' +
+        '<span class="graph-panel__hint">drag nodes · click a note to open it · esc</span></div>' +
+        "<canvas></canvas></div>";
+      document.body.appendChild(overlay);
+      canvas = overlay.querySelector("canvas");
+      focusEl = overlay.querySelector(".graph-panel__focus");
+      ctx = canvas.getContext("2d");
+
+      var downX = 0;
+      var downY = 0;
+      canvas.addEventListener("mousedown", function (event) {
+        var p = localXY(event);
+        dragged = nodeAt(p.x, p.y);
+        moved = false;
+        downX = p.x;
+        downY = p.y;
+      });
+      canvas.addEventListener("mousemove", function (event) {
+        var p = localXY(event);
+        if (dragged >= 0) {
+          var dx = p.x - downX;
+          var dy = p.y - downY;
+          if (dx * dx + dy * dy > 16) moved = true; /* a real drag, not click jitter */
+          if (moved) {
+            nodes[dragged].x = p.x;
+            nodes[dragged].y = p.y;
+          }
+        } else {
+          hovered = nodeAt(p.x, p.y);
+          canvas.style.cursor = hovered >= 0 ? "pointer" : "default";
+        }
+      });
+      canvas.addEventListener("mouseup", function () {
+        if (dragged >= 0 && !moved) {
+          var n = nodes[dragged];
+          if (n.kind === "post") {
+            window.location.href = n.url;
+          } else {
+            focusTag = n.tag;
+            focusEl.textContent = "#" + n.tag;
           }
         }
-      },
-      { rootMargin: "-25% 0px -60% 0px", threshold: [0, 1] }
-    );
+        dragged = -1;
+      });
+      canvas.addEventListener("mouseleave", function () {
+        hovered = -1;
+        dragged = -1;
+      });
+      overlay.addEventListener("mousedown", function (event) {
+        if (event.target === overlay) close();
+      });
+      window.addEventListener("resize", function () {
+        if (overlay.classList.contains("is-open")) size();
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && overlay.classList.contains("is-open")) close();
+      });
+    }
 
-    sections.forEach(function (s) {
-      observer.observe(s.el);
+    function open(tag) {
+      ensureOverlay();
+      overlay.classList.add("is-open");
+      focusTag = tag;
+      focusEl.textContent = "#" + tag;
+      size();
+      buildGraph();
+      hovered = -1;
+      dragged = -1;
+      window.cancelAnimationFrame(raf);
+      loop();
+    }
+
+    document.addEventListener("click", function (event) {
+      var chip = event.target.closest ? event.target.closest("[data-tag]") : null;
+      if (chip) open(chip.getAttribute("data-tag"));
     });
-    mark(sections[0]);
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -302,5 +617,6 @@
     renderPostList(root);
     setupSearch(root);
     setupContentsRail();
+    setupTagGraph(root);
   });
 })();

@@ -11,8 +11,8 @@ window.SITE_POSTS = [
       "A recurrent latent-state surrogate that watches surface pressure alone and forecasts unsteady lift and drag through gusts it was never told about.",
     url: "blog/2026/observer-forecaster/index.html",
     date: "August 27, 2026",
-    readTime: "10 min read",
+    readTime: "20 min read",
     year: "2026",
-    tags: [],
+    tags: ["latent", "recurrent", "encoder-decoder", "UQ"],
   },
 ];

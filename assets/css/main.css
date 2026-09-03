@@ -335,6 +335,21 @@ html:not([data-theme="dark"]) .theme-toggle .icon-moon {
   color: var(--text-muted);
 }
 
+/* clickable tag chips open the graph view */
+.tag--link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--text-faint);
+  cursor: pointer;
+  transition: color 140ms ease;
+}
+
+.tag--link:hover {
+  color: var(--accent);
+}
+
 .tag-sep {
   opacity: 0.5;
 }
@@ -724,7 +739,7 @@ body.doc .post-body,
   line-height: 1.25;
   letter-spacing: -0.025em;
   margin: 58px 0 14px;
-  color: var(--text);
+  color: var(--accent);
 }
 
 .post-body .section:first-child .section__title {
@@ -735,6 +750,297 @@ body.doc .post-body,
 .soon {
   color: var(--text-faint);
   margin: 0;
+}
+
+/* inline overview sketch; the svg scales with the column and inherits Geist */
+.post-figure {
+  margin: 30px 0 8px;
+}
+
+.post-figure svg,
+.post-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.post-figure figcaption {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-faint);
+}
+
+/* subsection headings and pull-quotes inside a part */
+.post-body h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  margin: 44px 0 12px;
+  color: var(--text);
+}
+
+.post-body h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  margin: 28px 0 8px;
+  color: var(--text);
+}
+
+.post-body blockquote {
+  margin: 20px 0;
+  padding: 2px 0 2px 18px;
+  border-left: 2px solid var(--accent);
+  color: var(--text-muted);
+}
+
+.post-body blockquote p {
+  margin: 0;
+}
+
+/* KaTeX display math: centered, tight, never scrolling the page */
+.post-body .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 0;
+  margin: 6px 0;
+  text-align: center;
+}
+
+.post-body .math-block {
+  margin: 4px 0 20px;
+}
+
+/* hand-drawn frame around embedded media: jittered clip + rough stroke */
+.sketch-frame {
+  position: relative;
+}
+
+.sketch-frame img {
+  clip-path: polygon(
+    0.72% 1.67%, 11.48% 0.79%, 22.44% 1.5%, 33.46% 0.49%, 44.07% 0.95%,
+    55.75% 0.73%, 66.67% 0.84%, 78.05% 1.91%, 88.81% 2%, 99.74% 1.68%,
+    98.92% 19.51%, 99.09% 40.08%, 98.84% 59.59%, 99.26% 80.54%, 99.16% 99.17%,
+    88.55% 98.1%, 77.76% 98.01%, 66.38% 98.32%, 55.81% 98.14%, 44.06% 99.07%,
+    32.97% 98.42%, 22.11% 98.07%, 11.01% 98.38%, 1.07% 99.29%, 0.76% 80.64%,
+    0.73% 59.8%, 0.47% 40.4%, 0.39% 20.15%
+  );
+}
+
+.sketch-frame__stroke {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  color: var(--text-faint);
+}
+
+.sketch-frame__stroke path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  opacity: 0.75;
+}
+
+/* model names read as identifiers, in the accent */
+.post-body code.model {
+  color: var(--accent);
+}
+
+/* pseudo-code block for the training algorithm */
+.algo {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  padding: 16px 20px;
+  margin: 22px 0;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.algo__head {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 10px;
+}
+
+.algo__given {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+
+.algo__lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: algoline;
+}
+
+.algo__lines li {
+  counter-increment: algoline;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  padding: 2px 0;
+}
+
+.algo__lines li::before {
+  content: counter(algoline) ":";
+  flex: none;
+  min-width: 24px;
+  text-align: right;
+  margin-right: 10px;
+  color: var(--text-faint);
+  font-size: 12.5px;
+}
+
+.algo__lines li.in1 > span:first-of-type {
+  padding-left: 20px;
+}
+
+.algo__lines li.in2 > span:first-of-type {
+  padding-left: 40px;
+}
+
+.algo__lines li.in3 > span:first-of-type {
+  padding-left: 60px;
+}
+
+.algo__note {
+  margin-left: auto;
+  text-align: right;
+  color: var(--text-faint);
+  font-size: 13.5px;
+}
+
+/* spec blocks: equations and small data tables */
+.eq {
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--text);
+  background: var(--bg-elevated);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 20px 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.post-table-wrap {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+.post-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15.5px;
+}
+
+.post-table th,
+.post-table td {
+  padding: 8px 14px 8px 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.post-table th {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* numbered citation marks and the reference list they point into */
+.cite {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.cite sup {
+  font-size: 0.72em;
+}
+
+.reference-list {
+  margin: 0;
+  padding-left: 24px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.reference-list li {
+  margin-bottom: 13px;
+  scroll-margin-top: calc(var(--header-h) + 20px);
+}
+
+.reference-list a {
+  color: var(--accent);
+  word-break: break-word;
+}
+
+/* ------------------------------------------------------------ tag graph -- */
+.graph-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+  padding: 10vh 20px 20px;
+  background: rgba(35, 22, 74, 0.34);
+  backdrop-filter: blur(2px);
+}
+
+.graph-overlay.is-open {
+  display: block;
+}
+
+html[data-theme="dark"] .graph-overlay {
+  background: rgba(8, 5, 20, 0.66);
+}
+
+.graph-panel {
+  max-width: 720px;
+  height: min(560px, 74vh);
+  margin: 0 auto;
+  background: var(--bg-elevated);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.graph-panel__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13.5px;
+  color: var(--text-faint);
+}
+
+.graph-panel__focus {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.graph-panel canvas {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 @media (prefers-reduced-motion: reduce) {
